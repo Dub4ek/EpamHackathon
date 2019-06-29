@@ -1,1 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+# Project exclude paths
+/client/node_modules/
+/node_modules/
