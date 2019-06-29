@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 200,
+    width: 300,
   },
   button: {
     margin: '30px 8px 8px',
@@ -63,6 +63,7 @@ function LoginPage(props) {
     <React.Fragment>
       <Container className={classes.parentContainer}>
       <form className={classes.container} noValidate autoComplete="off">
+        <h1>Login</h1>
         <TextField
           id="standard-name"
           label="Name"

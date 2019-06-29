@@ -24,7 +24,7 @@ export const createTalkVote = (talk, positive, description, userId) => {
 export const createQuestionVote = (question, user) => {
   let objData = Object.assign({question: question, user: user});
 
-  fetch(`${SERVER_URL}/question_votes/`, {
+  return fetch(`${SERVER_URL}/question_votes/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -106,9 +106,8 @@ function TalksVotePage() {
   };
 
   const handleQuestionVote = (questionId) => {
-    createQuestionVote(questionId, userId);
-
-    loadQuestions();
+    createQuestionVote(questionId, userId)
+      .then(() => loadQuestions())
   };
 
   const handleTalkVote = (positive) => {
