@@ -34,31 +34,31 @@ const useStyles = makeStyles({
   },
   barColorPrimary: {
     color: '#00FF00'
+  },
+  container: {
+    width: '100%',
+    height: '100%',
   }
 });
 
 function TalksListPage() {
   const classes = useStyles();
-  const talks = [{
-    id: 1,
-    title: "Доклад 1",
-    rating: 7,
-    time: ''
-  }];
   const [talksList, setTalksList] = useState([]);
 
   useEffect(() => {
     getTalksList()
       .then((result) => result.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setTalksList(data);
+      })
       .catch((error) => console.log(error));
-  })
+  }, [])
 
   return (
-    <>
+    <main className={classes.container}>
       <Container>
         <section className={classes.listContainer}>
-          {talks.map(item => (
+          {talksList.map(item => (
             <Card className={classes.card} item={item} key={item.id}>
               <CardContent>
                 <Typography variant="h5" component="h2" className={classes.title}>
@@ -68,7 +68,7 @@ function TalksListPage() {
                   <LinearProgress classes={{barColorPrimary: '#00FF00'}} className={classes.linearProgress} variant="determinate" value={item.rating} />
                 </Typography>
                 <Typography className={classes.time} color="textSecondary">
-                  10:00 - 11:30
+                  {item.start}:{item.end}
                 </Typography>
               </CardContent>
             </Card>
@@ -78,7 +78,7 @@ function TalksListPage() {
           <AddIcon />
         </Fab>
       </Container>
-    </>
+    </main>
   );
 }
 
