@@ -43,6 +43,7 @@ const useStyles = makeStyles({
   },
   card: {
     minWidth: '40%',
+    maxWidth: '40%',
     margin: '15px'
   },
   title: {
@@ -172,12 +173,9 @@ function TalksListPage(props) {
             </Card>
           ))}
         </section>
-        {/*{isAdmin == true ? <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
+        {isAdmin == true ? <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
         <AddIcon />
-      </Fab> : null}*/}
-        <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
-          <AddIcon />
-        </Fab>
+      </Fab> : null}
       </Container>
       <Dialog
         open={open}
