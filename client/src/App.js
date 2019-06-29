@@ -10,8 +10,8 @@ import './App.css';
 function App() {
   return (
     <Router>
-      {/*<Route exact path='/' component={LoginPage}></Route>*/}
-      <Route exact path='/' component={TalksListPage}></Route>
+      <Route exact path='/' component={LoginPage}></Route>
+      {/*<Route exact path='/' component={TalksListPage}></Route>*/}
       {/*<Route exact path='/' component={TalkVotePage}></Route>*/}
     </Router>
   );
