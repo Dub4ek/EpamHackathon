@@ -50,7 +50,7 @@ export const deleteQuestionVote = (id) => {
 };
 
 export const createQuestion = (data) => {
-  return fetch(`${SERVER_URL}/questions?ordering=rating/`,
+  return fetch(`${SERVER_URL}/questions/`,
     {
       method: 'POST',
       headers: {
