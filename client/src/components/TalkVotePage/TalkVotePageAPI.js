@@ -7,7 +7,7 @@ export const getQuestions = (talkID) => {
 export const createTalkVote = (talk, positive, description, userId) => {
   let objData = Object.assign({talk: talk, positive: positive, description: description, user: userId});
 
-  fetch(`${SERVER_URL}/talk_votes/`, {
+  return fetch(`${SERVER_URL}/talk_votes/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -39,6 +39,17 @@ export const createQuestionVote = (question, user) => {
 };
 
 export const createQuestion = (data) => {
+  return fetch(`${SERVER_URL}/questions/`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+};
+
+export const createCommentVote = (data) => {
   return fetch(`${SERVER_URL}/questions/`,
     {
       method: 'POST',

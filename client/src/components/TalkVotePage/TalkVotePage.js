@@ -88,6 +88,9 @@ function TalksVotePage() {
   const [questions, setQuestions] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [questionText, setQuestionText] = useState('');
+  const [openCommentDialog, setOpenCommentDialog] = useState(false);
+  const [commentVoteText, setCommentVoteText] = useState('');
+  const [talkReaction, setTalkReaction] = useState(null);
 
   useEffect(() => {
     loadQuestions();
@@ -107,7 +110,8 @@ function TalksVotePage() {
   };
 
   const handleTalkVote = (positive) => {
-    createTalkVote(talkID, positive, '', userId);
+    setTalkReaction(positive);
+    setOpenCommentDialog(true);
   };
 
   const addQuestionClickHandler = () => {
@@ -135,6 +139,20 @@ function TalksVotePage() {
   const cancelQuestionWindow = (event) => {
     setQuestionText('');
     setOpenDialog(false);
+  };
+
+  const commentTextChangeHandler = (event) => {
+    setCommentVoteText(event.target.value);
+  };
+
+  const cancelCommentWindow = () => {
+    setCommentVoteText('');
+    setOpenCommentDialog(false);
+  };
+
+  const createCommentVoteClickHandler = () => {
+    createTalkVote(talkID, talkReaction, commentVoteText, userId)
+      .then(() => setOpenCommentDialog(false));
   };
 
   return (
@@ -196,6 +214,37 @@ function TalksVotePage() {
           </Button>
           <Button onClick={createQuestionClickHandler} color="primary">
             Ask
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openCommentDialog}
+        TransitionComponent={Transition}
+        fullWidth
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">Are you sure to vote for the talk?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            <TextField
+              id="standard-uncontrolled"
+              label="Comment"
+              className={classes.textField}
+              margin="normal"
+              fullWidth
+              multiline={4}
+              required
+              onChange={commentTextChangeHandler}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelCommentWindow} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={createCommentVoteClickHandler} color="primary">
+            Vote
           </Button>
         </DialogActions>
       </Dialog>
