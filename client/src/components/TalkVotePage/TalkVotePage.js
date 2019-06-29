@@ -54,30 +54,37 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function TalksVotePage(talkId) {
-  if (!talkId) {
-    talkId = 1;
-  }
+function TalksVotePage() {
+  const getParameterByName = (name) => {
+    let url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  };
+  const talkID = getParameterByName('talkId') ? getParameterByName('talkId') : 1;
+
   const classes = useStyles();
   const userId = localStorage.getItem('id');
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    getQuestions()
+    getQuestions(talkID)
       .then((result) => result.json())
       .then((data) => {
         setQuestions(data);
-        console.log(data)
       })
       .catch((error) => console.log(error));
   }, []);
 
-  const handleQuestionVote = (itemId) => {
-    createQuestionVote(itemId, userId);
+  const handleQuestionVote = (questionId) => {
+    createQuestionVote(questionId, userId);
   };
 
   const handleTalkVote = (positive) => {
-    createTalkVote(talkId, positive, '', userId);
+    createTalkVote(talkID, positive, '', userId);
   };
 
   return (
@@ -86,10 +93,10 @@ function TalksVotePage(talkId) {
       <Container maxWidth="sm">
         <h2 className={classes.title}>Liked this talk?</h2>
         <div className={classes.voting}>
-          <div onClick={() => {handleQuestionVote(false)}} className={classNames(classes.voteButton, classes.voteAgainst)}>
+          <div onClick={() => {handleTalkVote(false)}} className={classNames(classes.voteButton, classes.voteAgainst)}>
             <img src={thumbDown} alt="dislike"/>
           </div>
-          <div onClick={() => {handleQuestionVote(true)}} className={classNames(classes.voteButton, classes.voteFor)}>
+          <div onClick={() => {handleTalkVote(true)}} className={classNames(classes.voteButton, classes.voteFor)}>
             <img src={thumbUp} alt="like"/>
           </div>
         </div>

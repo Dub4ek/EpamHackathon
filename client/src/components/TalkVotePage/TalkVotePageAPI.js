@@ -1,7 +1,7 @@
 const SERVER_URL = 'http://138.68.110.104:8000/api/v1';
 
-export const getQuestions = () => {
-  return fetch(`${SERVER_URL}/questions/`, { method: 'GET' });
+export const getQuestions = (talkID) => {
+  return fetch(`${SERVER_URL}/questions/?talk=${talkID}`, { method: 'GET' });
 };
 
 export const createTalkVote = (talk, positive, description, userId) => {
