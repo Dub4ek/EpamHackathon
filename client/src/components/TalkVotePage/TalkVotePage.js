@@ -13,7 +13,7 @@ import classNames from 'classnames/bind';
 import thumbDown from '../../images/thumb-down.svg';
 import thumbUp from '../../images/thumb-up.svg';
 
-import { getQuestions, createQuestionVote, createTalkVote, createQuestion }  from './TalkVotePageAPI';
+import { getQuestions, createQuestionVote, createTalkVote, createQuestion, getTalksVotes }  from './TalkVotePageAPI';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -50,10 +50,10 @@ const useStyles = makeStyles(theme => ({
     height: 100,
   },
   voteFor: {
-    backgroundColor: '#008000'
+    backgroundColor: '#4CAF50'
   },
   voteAgainst: {
-    backgroundColor: '#FF0000'
+    backgroundColor: '#B00020'
   },
   questionVotes: {
     lineHeight: '24px',
@@ -153,7 +153,15 @@ function TalksVotePage() {
   };
 
   const createCommentVoteClickHandler = () => {
-    createTalkVote(talkID, talkReaction, commentVoteText, userId)
+    getTalksVotes(userId, talkID)
+      .then((result) => result.json())
+      .then((result) => {
+        if(result.length === 0) {
+          return createTalkVote(talkID, talkReaction, commentVoteText, userId)
+        } else {
+          setOpenCommentDialog(false);
+        }
+      })
       .then(() => setOpenCommentDialog(false));
   };
 
