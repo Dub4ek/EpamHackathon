@@ -44,7 +44,6 @@ function TalksVotePage() {
           <AddIcon />
         </Fab>
       </Container>
-
     </React.Fragment>
   );
 }

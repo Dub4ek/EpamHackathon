@@ -5,7 +5,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/Add'
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { getTalksList }  from './TalksListPageAPI';
+
 
 const useStyles = makeStyles({
   listContainer: {
@@ -26,6 +29,12 @@ const useStyles = makeStyles({
   },
   time: {
   },
+  linearProgress: {
+    height: '2em',
+  },
+  barColorPrimary: {
+    color: '#00FF00'
+  }
 });
 
 function TalksListPage() {
@@ -37,10 +46,17 @@ function TalksListPage() {
     time: ''
   }];
 
+  useEffect(() => {
+    getTalksList()
+      .then((result) => {
+        console.log(result);
+      })
+  })
+
   return (
-    <React.Fragment>
+    <>
       <Container>
-        <div className={classes.listContainer}>
+        <section className={classes.listContainer}>
           {talks.map(item => (
             <Card className={classes.card} item={item} key={item.id}>
               <CardContent>
@@ -48,7 +64,7 @@ function TalksListPage() {
                   {item.title}
                 </Typography>
                 <Typography variant="body2" component="p" className={classes.rating}>
-                  Рейтинг: {item.rating}
+                  <LinearProgress classes={{barColorPrimary: '#00FF00'}} className={classes.linearProgress} variant="determinate" value={item.rating} />
                 </Typography>
                 <Typography className={classes.time} color="textSecondary">
                   10:00 - 11:30
@@ -56,12 +72,12 @@ function TalksListPage() {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </section>
         <Fab color="secondary" aria-label="Add" className={classes.fabButton}>
           <AddIcon />
         </Fab>
       </Container>
-    </React.Fragment>
+    </>
   );
 }
 

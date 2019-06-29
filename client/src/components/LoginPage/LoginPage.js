@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 function LoginPage() {
   const classes = useStyles();
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     login: '',
     password: '',
   });
