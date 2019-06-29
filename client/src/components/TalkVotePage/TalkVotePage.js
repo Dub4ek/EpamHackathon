@@ -13,7 +13,7 @@ import classNames from 'classnames/bind';
 import thumbDown from '../../images/thumb-down.svg';
 import thumbUp from '../../images/thumb-up.svg';
 
-import { getQuestions, createQuestionVote, createTalkVote }  from './TalkVotePageAPI';
+import { getQuestions, createTalkVote, createQuestionVote }  from './TalkVotePageAPI';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -81,6 +81,14 @@ function TalksVotePage() {
 
   const handleQuestionVote = (questionId) => {
     createQuestionVote(questionId, userId);
+
+    getQuestions(talkID)
+      .then((result) => result.json())
+      .then((data) => {
+        setQuestions(data);
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleTalkVote = (positive) => {
