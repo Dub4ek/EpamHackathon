@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -20,6 +20,15 @@ import TextField from '@material-ui/core/TextField';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { withRouter } from "react-router-dom";
 
+
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: '#4CAF50',
+  },
+  barColorPrimary: {
+    backgroundColor: '#EF5350',
+  },
+})(LinearProgress);
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -153,7 +162,7 @@ function TalksListPage(props) {
                   </Typography>
                   <Typography variant="body2" component="p" className={classes.rating}>
                       <span>Rating</span>
-                    <LinearProgress classes={{barColorPrimary: '#00FF00'}} className={classes.linearProgress} variant="determinate" value={item.rating} />
+                    <ColorLinearProgress classes={{barColorPrimary: '#00FF00'}} className={classes.linearProgress} variant="determinate" value={item.rating} />
                   </Typography>
                   <Typography className={classes.time} color="textSecondary">
                     {timeConvert(item.start)}<span className={classes.dateMinus}>-</span>{timeConvert(item.end)}

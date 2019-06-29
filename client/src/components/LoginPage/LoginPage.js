@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: '30px 8px 8px',
   },
+  title: {
+    fontSize: '3em',
+  },
 }));
 
 
@@ -63,7 +66,7 @@ function LoginPage(props) {
     <React.Fragment>
       <Container className={classes.parentContainer}>
       <form className={classes.container} noValidate autoComplete="off">
-        <h1>Login</h1>
+        <h1 className={classes.title}>Cobby</h1>
         <TextField
           id="standard-name"
           label="Name"
