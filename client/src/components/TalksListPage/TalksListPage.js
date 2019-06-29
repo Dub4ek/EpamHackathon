@@ -3,9 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles({
-  container: {
+  listContainer: {
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
@@ -27,25 +30,38 @@ const useStyles = makeStyles({
 
 function TalksListPage() {
   const classes = useStyles();
+  const talks = [{
+    id: 1,
+    title: "Доклад 1",
+    rating: 7,
+    time: ''
+  }];
 
   return (
-    <main>
-      <div className={classes.container}>
-        <Card className={classes.card}>
-          <CardContent>
-            <Typography variant="h5" component="h2" className={classes.title}>
-              Доклад 1
-            </Typography>
-            <Typography variant="body2" component="p" className={classes.rating}>
-              Рейтинг
-            </Typography>
-            <Typography className={classes.time} color="textSecondary">
-              10:00 - 11:30
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-    </main>
+    <React.Fragment>
+      <Container>
+        <div className={classes.listContainer}>
+          {talks.map(item => (
+            <Card className={classes.card} item={item} key={item.id}>
+              <CardContent>
+                <Typography variant="h5" component="h2" className={classes.title}>
+                  {item.title}
+                </Typography>
+                <Typography variant="body2" component="p" className={classes.rating}>
+                  Рейтинг: {item.rating}
+                </Typography>
+                <Typography className={classes.time} color="textSecondary">
+                  10:00 - 11:30
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <Fab color="secondary" aria-label="Add" className={classes.fabButton}>
+          <AddIcon />
+        </Fab>
+      </Container>
+    </React.Fragment>
   );
 }
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -35,7 +37,8 @@ function LoginPage() {
 
 
   return (
-    <main>
+    <React.Fragment>
+      <Container>
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
           id="standard-name"
@@ -58,7 +61,8 @@ function LoginPage() {
           Sign In
         </Button>
       </form>
-    </main>
+      </Container>
+    </React.Fragment>
   );
 }
 
