@@ -39,7 +39,7 @@ export const createQuestionVote = (question, user) => {
 };
 
 export const createQuestion = (data) => {
-  return fetch(`${SERVER_URL}/questions/`,
+  return fetch(`${SERVER_URL}/questions?ordering=rating/`,
     {
       method: 'POST',
       headers: {
