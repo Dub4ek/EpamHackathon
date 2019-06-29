@@ -59,3 +59,7 @@ export const createCommentVote = (data) => {
       body: JSON.stringify(data)
     })
 };
+
+export const getTalksVotes = (userId, talkId) => {
+  return fetch(`${SERVER_URL}/talk_votes/?user=${userId}&talkId=${talkId}`);
+}
