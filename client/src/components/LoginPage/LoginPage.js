@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import {createUser} from './LoginPageAPI';
 
 const useStyles = makeStyles(theme => ({
   parentContainer: {
@@ -50,10 +51,6 @@ function LoginPage() {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const login = (name, email) => {
-
-  };
-
   return (
     <React.Fragment>
       <Container className={classes.parentContainer}>
@@ -74,7 +71,7 @@ function LoginPage() {
           onChange={handleChange('email')}
           margin="normal"
         />
-        <Button onClick={login} variant="contained" color="primary" className={classes.button}>
+        <Button onClick={() => createUser(values)} variant="contained" color="primary" className={classes.button}>
           Sign In
         </Button>
       </form>
