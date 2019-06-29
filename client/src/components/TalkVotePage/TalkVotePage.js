@@ -176,7 +176,7 @@ function TalksVotePage() {
         <ListItem button item={item} key={item.id}>
           <ListItemText className={classes.questionText} primary={item.title} />
           <ListItemIcon className={classes.icon}>
-            <StarIcon onClick={() => handleQuestionVote(item.id)} />
+            <StarIcon color={true ? 'secondary' : 'action'} onClick={() => handleQuestionVote(item.id)} />
             <div className={classes.questionVotes}>
               {item.rating}
             </div>
