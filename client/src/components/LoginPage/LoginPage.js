@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import {createUser} from './LoginPageAPI';
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   parentContainer: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function LoginPage() {
+function LoginPage(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     name: '',
@@ -49,6 +50,13 @@ function LoginPage() {
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
+  };
+
+  const loginUser = (values) => {
+    createUser(values)
+      .then(() => {
+        props.history.push('/talksList');
+      });
   };
 
   return (
@@ -71,7 +79,7 @@ function LoginPage() {
           onChange={handleChange('email')}
           margin="normal"
         />
-        <Button onClick={() => createUser(values)} variant="contained" color="primary" className={classes.button}>
+        <Button onClick={() => loginUser(values)} variant="contained" color="primary" className={classes.button}>
           Sign In
         </Button>
       </form>
@@ -80,4 +88,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);
