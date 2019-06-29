@@ -13,7 +13,7 @@ import classNames from 'classnames/bind';
 import thumbDown from '../../images/thumb-down.svg';
 import thumbUp from '../../images/thumb-up.svg';
 
-import { getQuestions, createQuestionVote, createTalkVote, createQuestion, getTalksVotes }  from './TalkVotePageAPI';
+import { getQuestions, createQuestionVote, createTalkVote, createQuestion, getTalksVotes, checkWasQuestionVoted, deleteQuestionVote }  from './TalkVotePageAPI';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -100,14 +100,23 @@ function TalksVotePage() {
     getQuestions(talkID)
       .then((result) => result.json())
       .then((data) => {
+        console.log(data, 'data, is there my userId?');
         setQuestions(data);
       })
       .catch((error) => console.log(error));
   };
 
   const handleQuestionVote = (questionId) => {
-    createQuestionVote(questionId, userId)
-      .then(() => loadQuestions())
+    checkWasQuestionVoted(questionId, userId)
+      .then((result) => result.json())
+      .then((result) => {
+        if (result.length > 0) {
+          return deleteQuestionVote(result[0].id)
+        } else {
+          return createQuestionVote(questionId, userId)
+        }
+      })
+      .then(() => loadQuestions());
   };
 
   const handleTalkVote = (positive) => {
@@ -183,7 +192,7 @@ function TalksVotePage() {
         <ListItem button item={item} key={item.id}>
           <ListItemText className={classes.questionText} primary={item.title} />
           <ListItemIcon className={classes.icon}>
-            <StarIcon color={true ? 'secondary' : 'action'} onClick={() => handleQuestionVote(item.id)} />
+            <StarIcon color={false ? 'secondary' : 'action'} onClick={() => handleQuestionVote(item.id)} />
             <div className={classes.questionVotes}>
               {item.rating}
             </div>
