@@ -13,19 +13,22 @@ import classNames from 'classnames/bind';
 import thumbDown from '../../images/thumb-down.svg';
 import thumbUp from '../../images/thumb-up.svg';
 
-import { getQuestions, createQuestionVote }  from './TalkVotePageAPI';
+import { getQuestions, createQuestionVote, createTalkVote }  from './TalkVotePageAPI';
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  title: {
+    paddingLeft: 36,
+  },
   questionText: {
-    marginLeft: 20
+    paddingLeft: 20
   },
   icon: {
     justifyContent: 'flex-end',
-    marginRight: 20
+    paddingRight: 20
   },
   voting: {
     display: 'flex',
@@ -51,11 +54,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function TalksVotePage() {
+function TalksVotePage(talkId) {
+  if (!talkId) {
+    talkId = 1;
+  }
   const classes = useStyles();
-
   const userId = localStorage.getItem('id');
-
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
@@ -72,19 +76,25 @@ function TalksVotePage() {
     createQuestionVote(itemId, userId);
   };
 
+  const handleTalkVote = (positive) => {
+    createTalkVote(talkId, positive, '', userId);
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="sm">
+        <h2 className={classes.title}>Liked this talk?</h2>
         <div className={classes.voting}>
-          <div className={classNames(classes.voteButton, classes.voteAgainst)}>
+          <div onClick={() => {handleQuestionVote(false)}} className={classNames(classes.voteButton, classes.voteAgainst)}>
             <img src={thumbDown} alt="dislike"/>
           </div>
-          <div className={classNames(classes.voteButton, classes.voteFor)}>
+          <div onClick={() => {handleQuestionVote(true)}} className={classNames(classes.voteButton, classes.voteFor)}>
             <img src={thumbUp} alt="like"/>
           </div>
         </div>
       <List component="nav" className={classes.root} aria-label="Questions">
+        <h3 className={classes.title}>Current questions:</h3>
         {questions.map(item => (
         <ListItem button item={item} key={item.id}>
           <ListItemText className={classes.questionText} primary={item.title} />
