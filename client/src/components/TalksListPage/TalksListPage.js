@@ -90,7 +90,7 @@ function TalksListPage(props) {
   }
 
   const timeConvert = (value) => {
-    return moment(value).format("DD MMM YYYY hh:mm") ;
+    return moment(value).format("HH:MM DD MMM") ;
   }
 
   const addButtonClickHandler = () => {
@@ -137,7 +137,7 @@ function TalksListPage(props) {
   }
 
   const cardClickHandler = (talkId) => {
-    props.history.push(`/talkVote?${talkId}`);
+    props.history.push(`/talkVote?talkId=${talkId}`);
   };
 
   return (
