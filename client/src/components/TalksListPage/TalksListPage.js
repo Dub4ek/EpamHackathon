@@ -45,12 +45,13 @@ function TalksListPage() {
     rating: 7,
     time: ''
   }];
+  const [talksList, setTalksList] = useState([]);
 
   useEffect(() => {
     getTalksList()
-      .then((result) => {
-        console.log(result);
-      })
+      .then((result) => result.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   })
 
   return (
