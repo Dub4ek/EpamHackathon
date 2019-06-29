@@ -172,7 +172,7 @@ function TalksListPage(props) {
             </Card>
           ))}
         </section>
-        {isAdmin ? <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
+        {isAdmin == true ? <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
         <AddIcon />
       </Fab> : null}
       </Container>
