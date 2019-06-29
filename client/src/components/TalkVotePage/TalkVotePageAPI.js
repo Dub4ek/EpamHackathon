@@ -36,4 +36,15 @@ export const createQuestionVote = (question, user) => {
       console.log('voted', data)
     })
     .catch((error) => console.log(error));
-} ;
+};
+
+export const createQuestion = (data) => {
+  return fetch(`${SERVER_URL}/questions/`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+};
