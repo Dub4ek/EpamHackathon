@@ -38,8 +38,19 @@ export const createQuestionVote = (question, user) => {
     .catch((error) => console.log(error));
 };
 
+export const deleteQuestionVote = (id) => {
+  return fetch(`${SERVER_URL}/question_votes/${id}/`, {
+    method: 'DELETE'
+    })
+    .then((result) => result.json())
+    .then((data) => {
+      console.log('deleted', data)
+    })
+    .catch((error) => console.log(error));
+};
+
 export const createQuestion = (data) => {
-  return fetch(`${SERVER_URL}/questions/`,
+  return fetch(`${SERVER_URL}/questions?ordering=rating/`,
     {
       method: 'POST',
       headers: {
@@ -63,3 +74,8 @@ export const createCommentVote = (data) => {
 export const getTalksVotes = (userId, talkId) => {
   return fetch(`${SERVER_URL}/talk_votes/?user=${userId}&talkId=${talkId}`);
 }
+
+export const checkWasQuestionVoted = (question, user) => {
+  return fetch(`${SERVER_URL}/question_votes/?user=${user}&question=${question}`, { method: 'GET' });
+};
+
