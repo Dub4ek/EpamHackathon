@@ -18,6 +18,7 @@ import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import { withRouter } from "react-router-dom";
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -65,7 +66,7 @@ const useStyles = makeStyles({
   },
 });
 
-function TalksListPage() {
+function TalksListPage(props) {
   const classes = useStyles();
   const [talksList, setTalksList] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -133,13 +134,17 @@ function TalksListPage() {
     setTalkEndDate(moment(value).valueOf());
   }
 
+  const cardClickHandler = (talkId) => {
+    props.history.push(`/talkVote?${talkId}`);
+  };
+
   return (
     <main className={classes.container}>
       <Container>
         <section className={classes.listContainer}>
           {talksList.map(item => (
             <Card className={classes.card} item={item} key={item.id}>
-              <CardActionArea>
+              <CardActionArea onClick={() => cardClickHandler(item.id)}>
                 <CardContent>
                   <Typography variant="h5" component="h2" className={classes.title}>
                     {item.title}
@@ -212,4 +217,4 @@ function TalksListPage() {
   );
 }
 
-export default TalksListPage;
+export default withRouter(TalksListPage);
