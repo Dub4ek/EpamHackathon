@@ -3,14 +3,29 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
+  parentContainer: {
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    bottom: '0',
+    right: '0',
+    overflow: 'auto',
+  },
   container: {
+    height: '100%',
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'column',
     alignItems: 'center',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    justifyContent: 'center',
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -25,9 +40,9 @@ const useStyles = makeStyles(theme => ({
 
 function LoginPage() {
   const classes = useStyles();
-  const [values, setValues] = useState({
-    login: '',
-    password: '',
+  const [values, setValues] = React.useState({
+    name: '',
+    email: '',
   });
 
 
@@ -35,29 +50,31 @@ function LoginPage() {
     setValues({ ...values, [name]: event.target.value });
   };
 
+  const login = (name, email) => {
+
+  };
 
   return (
     <React.Fragment>
-      <Container>
+      <Container className={classes.parentContainer}>
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
           id="standard-name"
-          label="Login"
+          label="Name"
           className={classes.textField}
-          value={values.login}
-          onChange={handleChange('login')}
+          value={values.name}
+          onChange={handleChange('name')}
           margin="normal"
         />
         <TextField
           id="standard-name"
-          label="Password"
+          label="Email"
           className={classes.textField}
-          type="password"
-          value={values.password}
-          onChange={handleChange('password')}
+          value={values.email}
+          onChange={handleChange('email')}
           margin="normal"
         />
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button onClick={login} variant="contained" color="primary" className={classes.button}>
           Sign In
         </Button>
       </form>

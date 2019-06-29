@@ -7,9 +7,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import StarIcon from '@material-ui/icons/Star';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,6 +17,18 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  voting: {
+    display: 'flex',
+  },
+  voteButton: {
+
+  },
+  voteFor: {
+
+  },
+  voteAgainst: {
+
+  }
 }));
 
 function TalksVotePage() {
@@ -26,6 +38,9 @@ function TalksVotePage() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="sm">
+        <div className={classes.voting}>
+
+        </div>
       <List component="nav" className={classes.root} aria-label="Questions">
         <ListItem button>
           <ListItemText primary="Текст вопроса" />
@@ -44,6 +59,7 @@ function TalksVotePage() {
           <AddIcon />
         </Fab>
       </Container>
+
     </React.Fragment>
   );
 }
