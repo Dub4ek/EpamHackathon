@@ -119,7 +119,7 @@ function TalksListPage(props) {
     data.title = talkName;
     data.start = talkStartDate;
     data.end = talkEndDate;
-    console.log(data);
+
     createTalk(data)
       .then(() => {
         requestTalksList()
@@ -137,12 +137,12 @@ function TalksListPage(props) {
     setTalkName(event.target.value);
   }
 
-  const startDateChangeHandler = (event, value) => {
-    setTalkStartDate(moment(value).valueOf());
+  const startDateChangeHandler = (event) => {
+    setTalkStartDate(moment(event.target.value).valueOf());
   }
 
-  const endDateChangeHandler = (event, value) => {
-    setTalkEndDate(moment(value).valueOf());
+  const endDateChangeHandler = (event) => {
+    setTalkEndDate(moment(event.target.value).valueOf());
   }
 
   const cardClickHandler = (talkId) => {
@@ -172,9 +172,12 @@ function TalksListPage(props) {
             </Card>
           ))}
         </section>
-        {isAdmin == true ? <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
+        {/*{isAdmin == true ? <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
         <AddIcon />
-      </Fab> : null}
+      </Fab> : null}*/}
+        <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
+          <AddIcon />
+        </Fab>
       </Container>
       <Dialog
         open={open}
