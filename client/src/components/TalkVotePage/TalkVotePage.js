@@ -13,7 +13,15 @@ import classNames from 'classnames/bind';
 import thumbDown from '../../images/thumb-down.svg';
 import thumbUp from '../../images/thumb-up.svg';
 
-import { getQuestions, createTalkVote, createQuestionVote }  from './TalkVotePageAPI';
+import { getQuestions, createQuestionVote, createTalkVote, createQuestion }  from './TalkVotePageAPI';
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import TextField from "@material-ui/core/TextField";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,8 +59,17 @@ const useStyles = makeStyles(theme => ({
     lineHeight: '24px',
     marginLeft: '6px',
     fontSize: '16px'
-  }
+  },
+  fabButton: {
+    position: 'absolute',
+    bottom: '50px',
+    right: '50px',
+  },
 }));
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function TalksVotePage() {
   const getParameterByName = (name) => {
@@ -69,30 +86,75 @@ function TalksVotePage() {
   const classes = useStyles();
   const userId = localStorage.getItem('id');
   const [questions, setQuestions] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [questionText, setQuestionText] = useState('');
+  const [openCommentDialog, setOpenCommentDialog] = useState(false);
+  const [commentVoteText, setCommentVoteText] = useState('');
+  const [talkReaction, setTalkReaction] = useState(null);
 
   useEffect(() => {
-    getQuestions(talkID)
-      .then((result) => result.json())
-      .then((data) => {
-        setQuestions(data);
-      })
-      .catch((error) => console.log(error));
+    loadQuestions();
   }, []);
 
-  const handleQuestionVote = (questionId) => {
-    createQuestionVote(questionId, userId);
-
+  const loadQuestions = () => {
     getQuestions(talkID)
       .then((result) => result.json())
       .then((data) => {
         setQuestions(data);
-        console.log(data);
       })
       .catch((error) => console.log(error));
   };
 
+  const handleQuestionVote = (questionId) => {
+    createQuestionVote(questionId, userId);
+
+    loadQuestions();
+  };
+
   const handleTalkVote = (positive) => {
-    createTalkVote(talkID, positive, '', userId);
+    setTalkReaction(positive);
+    setOpenCommentDialog(true);
+  };
+
+  const addQuestionClickHandler = () => {
+    setOpenDialog(true);
+  };
+
+  const questionTextChangeHandler = (event) => {
+    setQuestionText(event.target.value);
+  };
+
+  const createQuestionClickHandler = () => {
+    const questionData = {
+      title: null,
+      talk: talkID,
+      user: userId
+    };
+
+    questionData.title = questionText;
+    createQuestion(questionData)
+      .then(() => loadQuestions())
+      .then(() => setOpenDialog(false))
+      .catch((error) => console.log(error));
+  };
+
+  const cancelQuestionWindow = (event) => {
+    setQuestionText('');
+    setOpenDialog(false);
+  };
+
+  const commentTextChangeHandler = (event) => {
+    setCommentVoteText(event.target.value);
+  };
+
+  const cancelCommentWindow = () => {
+    setCommentVoteText('');
+    setOpenCommentDialog(false);
+  };
+
+  const createCommentVoteClickHandler = () => {
+    createTalkVote(talkID, talkReaction, commentVoteText, userId)
+      .then(() => setOpenCommentDialog(false));
   };
 
   return (
@@ -122,10 +184,72 @@ function TalksVotePage() {
         </ListItem>
         ))}
       </List>
-        <Fab color="secondary" aria-label="Add" className={classes.fabButton}>
+        <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addQuestionClickHandler}>
           <AddIcon />
         </Fab>
       </Container>
+      <Dialog
+        open={openDialog}
+        TransitionComponent={Transition}
+        fullWidth
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">Ask a question?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            <TextField
+              id="standard-uncontrolled"
+              label="Question"
+              className={classes.textField}
+              margin="normal"
+              fullWidth
+              multiline={4}
+              required
+              onChange={questionTextChangeHandler}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelQuestionWindow} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={createQuestionClickHandler} color="primary">
+            Ask
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openCommentDialog}
+        TransitionComponent={Transition}
+        fullWidth
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">Are you sure to vote for the talk?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            <TextField
+              id="standard-uncontrolled"
+              label="Comment"
+              className={classes.textField}
+              margin="normal"
+              fullWidth
+              multiline={4}
+              required
+              onChange={commentTextChangeHandler}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelCommentWindow} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={createCommentVoteClickHandler} color="primary">
+            Vote
+          </Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }
