@@ -27,9 +27,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    padding: 0,
   },
   title: {
     paddingLeft: 36,
+
   },
   questionText: {
     paddingLeft: 20
@@ -167,7 +169,7 @@ function TalksVotePage() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <h2 className={classes.title}>Liked this talk?</h2>
         <div className={classes.voting}>
           <div onClick={() => {handleTalkVote(false)}} className={classNames(classes.voteButton, classes.voteAgainst)}>
