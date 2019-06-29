@@ -73,9 +73,11 @@ function TalksListPage(props) {
   const [talkName, setTalkName] = useState('');
   const [talkStartDate, setTalkStartDate] = useState('');
   const [talkEndDate, setTalkEndDate] = useState('');
+  const [isAdmin, setAdmin] = useState(false);
 
   useEffect(() => {
     requestTalksList();
+    setAdmin(localStorage.getItem('isRoleAdmin'));
   }, [])
 
   const requestTalksList = () => {
@@ -161,9 +163,9 @@ function TalksListPage(props) {
             </Card>
           ))}
         </section>
-        <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
-          <AddIcon />
-        </Fab>
+        {isAdmin ? <Fab color="secondary" aria-label="Add" className={classes.fabButton} onClick={addButtonClickHandler}>
+        <AddIcon />
+      </Fab> : null}
       </Container>
       <Dialog
         open={open}

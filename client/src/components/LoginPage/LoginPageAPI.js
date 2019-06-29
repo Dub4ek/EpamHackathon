@@ -13,6 +13,7 @@ export const createUser = (data) => {
     .then((result) => result.json())
     .then((data) => {
       localStorage.setItem('id', data.id);
+      localStorage.setItem('isRoleAdmin', data.admin);
       console.log('registered', data)})
     .catch((error) => console.log(error));
 } ;
