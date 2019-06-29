@@ -50,10 +50,10 @@ const useStyles = makeStyles(theme => ({
     height: 100,
   },
   voteFor: {
-    backgroundColor: '#008000'
+    backgroundColor: '#4CAF50'
   },
   voteAgainst: {
-    backgroundColor: '#FF0000'
+    backgroundColor: '#B00020'
   },
   questionVotes: {
     lineHeight: '24px',
